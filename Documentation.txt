@@ -1,0 +1,110 @@
+Mail Server
+
+Some Basic Functionality
+
+1). Login → Login of User
+	● This endpoint allows a user to log in with their credentials.
+	● Validates the user's username/email and password.
+	● If valid, generates an authentication token to be used for subsequent requests.
+	● Returns the token along with user information.
+
+2). Signup → Register of The User
+	● Allows a new user to register for the mail server.
+	● Collects user information like name, email, and password.
+	● Stores the information securely in the server's database.
+	● Returns a success message or user details.
+
+3). Change Password → Only if the user is logged in then it must be allowed to change its own email password
+	● Requires the user to be authenticated with a valid token.
+	● Allows the user to change their own email password.
+	● Validates the old password before applying the change.
+	● Returns a success message upon successful password change.
+
+4). Change User Info → 
+Once the User Logged in only then he/she must be allowed to change its info but not the password.
+	● Requires the user to be authenticated with a valid token.
+	● Allows the user to update their information (excluding password).
+	● Validates and updates the user's information in the database.
+	● Returns a success message or updated user details.
+
+
+Core Functionalities
+
+5). Plans → Three Basic Plans for mail Server
+	● This endpoint provides information about the available plans.
+	● Returns the details of the Basic, Intermediate, and Enterprise plans.
+
+	➤ A). Basic Plan(0$)
+	i) Must have a Limit of upto 200 characters
+	ii) 1 File Upload
+	iii) No RAR Files Upload
+	iv) BCC Count to 2
+	v) CC count to 2
+
+	➤ B). Intermediate(10$)
+	i) Must Have Limit to 350 Characters
+	ii) 3 Files Upload
+	iii) No RAR FIle Upload
+	iv) BCC count to 4
+	v) CC count to 4
+
+	➤ C). Enterprise(20$)
+	Everything is unlimited
+
+6). Compose → Compose of the New Mail With Subject,CC,BCC,Message(Can contain Image), must be able to send mail to self
+	● Requires the user to be authenticated with a valid token.
+	● Allows the user to compose a new email.
+	● Collects email subject, CC, BCC, message content, and optional image.
+	● Validates and sends the email.
+	● Returns a success message or error if applicable.
+
+7). Forward mail → forward  mail to user
+	● Requires the user to be authenticated with a valid token.
+	● Allows the user to forward received emails to other users.
+	● Collects the email to be forwarded and the recipient's email.
+	● Validates and sends the forwarded email.
+	● Returns a success message or error if applicable.
+
+8). Reply Message → Each and every CC,BCC, to whom mail is sent  will be able to reply to message but not any other
+	● Requires the user to be authenticated with a valid token.
+	● Allows recipients (CC, BCC) of an email to reply to the message.
+	● Collects the reply message and sends it to the original sender.
+	● Returns a success message or error if applicable.
+
+9). BookMark → who every have received the mail i.e. receiver, BCC,CC must be able to bookmark the mail but not any other
+	● Requires the user to be authenticated with a valid token.
+	● Allows recipients (CC, BCC, receiver) to bookmark received emails.
+	● Marks the email as bookmarked in the database.
+	● Returns a success message or error if applicable.
+
+10). Delete Mail → Must be able to delete the mail but not hard delete but soft delete
+	● Requires the user to be authenticated with a valid token.
+	● Allows the user to soft delete their own emails.
+	● Marks the email as deleted without permanently removing it.
+	● Returns a success message or error if applicable.
+
+11). Get Single Mail → Must Be Able to get the single mail of the user However only those users can see mail who are either in BCC,CC,Receiver,sender
+	● Requires the user to be authenticated with a valid token.
+	● Allows users who are in CC, BCC, receiver, or sender roles to view an email.
+	● Retrieves and returns the email details if accessible.
+	● Returns an error if the email is not accessible.
+
+12). Check Mail Forwarded → Must be able to check the mails that have been forwarded and to whom must be the mails that he forwarded or by someone forwarded to him.
+	● Requires the user to be authenticated with a valid token.
+	● Allows the user to check forwarded emails.
+	● Retrieves and returns a list of forwarded emails and their recipients.
+
+13). Check Mail Received → Check Which Emails Have Been Receiver Only those mails that have been received by the user.
+	● Requires the user to be authenticated with a valid token.
+	● Allows the user to check received emails.
+	● Retrieves and returns a list of received emails.
+
+14). Check Sent Mails → Get the List of Emails that are sent by a logged in user.
+Check 
+	● Requires the user to be authenticated with a valid token.
+	● Allows the user to check emails they've sent.
+	● Retrieves and returns a list of sent emails.
+
+
+
+Note:- This breakdown outlines the detailed functionality of your mail server's REST API based on the requirements you've provided. Each endpoint performs specific actions, validates inputs, interacts with the database, and returns appropriate responses to users. It's important to design your API routes, request parameters, response structures, and authentication mechanisms carefully to ensure the security and efficiency of your mail server system.
