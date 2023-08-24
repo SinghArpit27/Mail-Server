@@ -3,20 +3,21 @@ import dotenv from 'dotenv';
 import connectDB from './config/database.js';
 import userRoutes from './modules/user/routes/userRoutes.js';
 import cookieParser from 'cookie-parser';
+import userMailRoutes from './modules/user/routes/userMailRoutes.js';
 
 const app = express();
 dotenv.config();
 
-// Establish mongodb connection
+// Establish Mongodb Connection
 connectDB();
 
-// Using middleware
+// Using Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-
-// User Route
-app.use('/', userRoutes)
+//Routes Definition
+app.use('/', userRoutes);
+app.use('/mail', userMailRoutes);
 
 
 

@@ -1,0 +1,225 @@
+**Mail Server REST API Documentation**
+
+This document outlines the detailed requirements for a RESTful API for a mail server. The API will be developed using Node.js, Express.js, and MongoDB. The API will offer various functionalities for user authentication, email management, and user interactions.
+
+**1. User Authentication**
+
+- **Login**
+  - Endpoint: `POST /api/login`
+  - Request:
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "userpassword"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "message": "Login successful",
+      "token": "jsonwebtoken"
+    }
+    ```
+
+- **Signup**
+  - Endpoint: `POST /api/signup`
+  - Request:
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "userpassword"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "message": "Signup successful",
+      "user": {
+        "_id": "userid",
+        "email": "user@example.com"
+      }
+    }
+    ```
+
+- **Change Password**
+  - Endpoint: `PUT /api/change-password`
+  - Request:
+    ```json
+    {
+      "oldPassword": "useroldpassword",
+      "newPassword": "usernewpassword"
+    }
+    ```
+  - Authorization: Bearer Token
+  - Response:
+    ```json
+    {
+      "message": "Password changed successfully"
+    }
+    ```
+
+- **Change User Info**
+  - Endpoint: `PUT /api/change-user-info`
+  - Authorization: Bearer Token
+  - Request:
+    ```json
+    {
+      "name": "New Name",
+      "otherFields": "..."
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "message": "User information updated successfully"
+    }
+    ```
+
+**2. Email Plans**
+
+- **Plans**
+  - Basic Plan: Free
+  - Intermediate Plan: $10/month
+  - Enterprise Plan: $20/month
+
+**3. Email Management**
+
+- **Compose Email**
+  - Endpoint: `POST /api/compose`
+  - Authorization: Bearer Token
+  - Request:
+    ```json
+    {
+      "subject": "Email Subject",
+      "cc": ["cc@example.com"],
+      "bcc": ["bcc@example.com"],
+      "message": "Email content"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "message": "Email sent successfully"
+    }
+    ```
+
+- **Forward Email**
+  - Endpoint: `POST /api/forward/:emailId`
+  - Authorization: Bearer Token
+  - Request:
+    ```json
+    {
+      "to": ["forwarded@example.com"],
+      "message": "Forwarded content"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "message": "Email forwarded successfully"
+    }
+    ```
+
+- **Reply Email**
+  - Endpoint: `POST /api/reply/:emailId`
+  - Authorization: Bearer Token
+  - Request:
+    ```json
+    {
+      "message": "Reply content"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "message": "Email replied successfully"
+    }
+    ```
+
+- **Bookmark Email**
+  - Endpoint: `POST /api/bookmark/:emailId`
+  - Authorization: Bearer Token
+  - Response:
+    ```json
+    {
+      "message": "Email bookmarked successfully"
+    }
+    ```
+
+- **Delete Email**
+  - Endpoint: `DELETE /api/delete/:emailId`
+  - Authorization: Bearer Token
+  - Response:
+    ```json
+    {
+      "message": "Email deleted successfully"
+    }
+    ```
+
+- **Get Single Email**
+  - Endpoint: `GET /api/email/:emailId`
+  - Authorization: Bearer Token
+  - Response:
+    ```json
+    {
+      "_id": "emailId",
+      "subject": "Email Subject",
+      "sender": "sender@example.com",
+      "cc": ["cc@example.com"],
+      "bcc": ["bcc@example.com"],
+      "message": "Email content"
+    }
+    ```
+
+- **Check Mail Forwarded**
+  - Endpoint: `GET /api/check-forwarded`
+  - Authorization: Bearer Token
+  - Response:
+    ```json
+    {
+      "forwardedEmails": [
+        {
+          "_id": "emailId",
+          "subject": "Email Subject",
+          "to": ["forwarded@example.com"],
+          "message": "Forwarded content"
+        }
+      ]
+    }
+    ```
+
+- **Check Mail Received**
+  - Endpoint: `GET /api/check-received`
+  - Authorization: Bearer Token
+  - Response:
+    ```json
+    {
+      "receivedEmails": [
+        {
+          "_id": "emailId",
+          "subject": "Email Subject",
+          "sender": "sender@example.com",
+          "message": "Email content"
+        }
+      ]
+    }
+    ```
+
+- **Check Sent Mails**
+  - Endpoint: `GET /api/check-sent`
+  - Authorization: Bearer Token
+  - Response:
+    ```json
+    {
+      "sentEmails": [
+        {
+          "_id": "emailId",
+          "subject": "Email Subject",
+          "to": ["receiver@example.com"],
+          "message": "Email content"
+        }
+      ]
+    }
+    ```
+
+This documentation provides a detailed overview of the planned REST API for the mail server, covering user authentication, email management, and various functionalities associated with email interactions. Use this as a reference to guide the development of the API using Node.js, Express.js, and MongoDB.

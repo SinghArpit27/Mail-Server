@@ -17,6 +17,7 @@ export const responseMessages = {
     TOKEN_ERROR: "Invalid Token",
     PASSWORD_CHANGE: "Password changed successfully",
     PROFILE_UPDATE: "Profile update successfully",
+    MAIL_SEND: "Mail Send Successfully",
 
     SUCCESS: 'Success',
     CREATED: 'Resource created successfully',

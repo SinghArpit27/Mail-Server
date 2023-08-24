@@ -25,9 +25,12 @@ const mailSchema = new mongoose.Schema({
         // Other attachment fields
     },
     ],
+
     forwardedTo: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    softDeleted: Boolean,
+
+    softDeleted: {
+        type: [{type: mongoose.Schema.Types.ObjectId},], default: [], },
 
     // Indexes
     'recipients.cc': 1, // Index on 'cc' field within 'recipients' array

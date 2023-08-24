@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const allowedPlanNames = ['Basic Plan', 'Intermediate Plan', 'Enterprise Plan'];
+
 const userSchema = new mongoose.Schema({
     name:{
         type: String,
@@ -19,11 +21,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // plan: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Plan',
-    //     required: true
-    // },
+    plan: {
+        type: String,
+        required: true,
+        validate: {
+        validator: function (value) {
+            return allowedPlanNames.includes(value);
+        },
+        message: 'Invalid plan name. Please choose from Basic Plan, Intermediate Plan, or Enterprise Plan.',
+        },
+    },
     otpVerification:{
         type: String
     },

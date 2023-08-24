@@ -33,6 +33,7 @@ class UserController {
                         email: req.body.email,
                         phone: req.body.phone,
                         password: spassword,
+                        plan: req.body.plan,
                         otpVerification: otp,
                         otpExpiration: otpExp
                     });
@@ -121,7 +122,6 @@ class UserController {
             const password = req.body.password;
 
             const userData = await User.findOne({email});
-
             if(userData){
                 const passwordMatch = await bcrypt.compare(password, userData.password);
                 if(passwordMatch){
@@ -155,7 +155,7 @@ class UserController {
                 { _id: userId },
                 { $set: { password: newPassword } },
                 { new: true }
-            ).select({ name: 1, email: 1, phone: 1, _id: 0 });
+            ).select({ name: 1, email: 1, phone: 1, plan: 1, _id: 0 });
             if (!userData) {
                 httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
             }else{
@@ -171,13 +171,13 @@ class UserController {
         try {
             
             const userId = req.userId;
-            console.log("User Id: " + userId);
+            // console.log("User Id: " + userId);
 
             const userData = await User.findByIdAndUpdate(
                 { _id: userId },
-                { $set: { name: req.body.name, phone: req.body.phone } },
+                { $set: { name: req.body.name, phone: req.body.phone, plan: req.body.plan } },
                 { new: true }
-            ).select({ name: 1, email: 1, phone: 1, _id: 0 });
+            ).select({ name: 1, email: 1, phone: 1, plan: 1, _id: 0 });
             if (!userData) {
                 httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
             }else{
