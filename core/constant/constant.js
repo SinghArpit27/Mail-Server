@@ -12,6 +12,11 @@ export const responseMessages = {
     OTP_SEND: "OTP has been sent to your registered Phone Number. Please verify the OTP.",
     INCORRECT_CREDENTIALS: "Incorrect Credentials",
     NOT_VERIFIED: "You are not Verified, Please verify your details",
+    UNAUTHORIZED: "Unauthorized User",
+    LOGIN_SUCCESS: "Login Successfully",
+    TOKEN_ERROR: "Invalid Token",
+    PASSWORD_CHANGE: "Password changed successfully",
+    PROFILE_UPDATE: "Profile update successfully",
 
     SUCCESS: 'Success',
     CREATED: 'Resource created successfully',
@@ -30,4 +35,5 @@ export const statusCode = {
     BAD_REQUEST: 400,
     NOT_FOUND: 404,
     INTERNAL_SERVER_ERROR: 500,
+    UNAUTHORIZED: 401,
 };

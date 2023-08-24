@@ -20,8 +20,7 @@ Some Basic Functionality
 	● Validates the old password before applying the change.
 	● Returns a success message upon successful password change.
 
-4). Change User Info → 
-Once the User Logged in only then he/she must be allowed to change its info but not the password.
+4). Change User Info → Once the User Logged in only then he/she must be allowed to change its info but not the password.
 	● Requires the user to be authenticated with a valid token.
 	● Allows the user to update their information (excluding password).
 	● Validates and updates the user's information in the database.

@@ -1,9 +1,9 @@
 import User from "../../../models/userSchema.js";
-import Plan from '../../../models/planSchema.js';
 import bcrypt from 'bcrypt';
 import phoneOTP from '../../../helper/userVerification.js';
 import { responseMessages, responseStatus, statusCode } from '../../../core/constant/constant.js';
 import httpResponse from "../../../helper/httpResponse.js";
+import { createToken } from "../../../middleware/jwtAuthentication.js";
 
 
 // Generate a random OTP
@@ -125,20 +125,64 @@ class UserController {
             if(userData){
                 const passwordMatch = await bcrypt.compare(password, userData.password);
                 if(passwordMatch){
-
                     if(userData.is_varified === 1){
+
+                        // JWT Authentication logic
+                        const token = await createToken(userData._id);
+                        httpResponse(res, statusCode.CREATED, responseStatus.SUCCESS, responseMessages.LOGIN_SUCCESS, token);
 
                     }else{
                         httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.NOT_VERIFIED);
                     }
-
                 }else{
                     httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.INCORRECT_CREDENTIALS);
                 }
             }else{
                 httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.INCORRECT_CREDENTIALS);
             }
+        } catch (error) {
+            httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    static async changePassword(req,res){
+        try {
+            const userId = req.userId;
+            // console.log("User Id: " + userId);
+
+            const newPassword = await bcrypt.hash(req.body.password, 10);
+            const userData = await User.findByIdAndUpdate(
+                { _id: userId },
+                { $set: { password: newPassword } },
+                { new: true }
+            ).select({ name: 1, email: 1, phone: 1, _id: 0 });
+            if (!userData) {
+                httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
+            }else{
+                httpResponse(res, statusCode.CREATED, responseStatus.SUCCESS, responseMessages.PASSWORD_CHANGE, userData);
+            }
+
+        } catch (error) {
+            httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    static async updateProfile(req,res){
+        try {
+            
+            const userId = req.userId;
+            console.log("User Id: " + userId);
+
+            const userData = await User.findByIdAndUpdate(
+                { _id: userId },
+                { $set: { name: req.body.name, phone: req.body.phone } },
+                { new: true }
+            ).select({ name: 1, email: 1, phone: 1, _id: 0 });
+            if (!userData) {
+                httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
+            }else{
+                httpResponse(res, statusCode.CREATED, responseStatus.SUCCESS, responseMessages.PROFILE_UPDATE, userData);
+            }
 
         } catch (error) {
             httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR);

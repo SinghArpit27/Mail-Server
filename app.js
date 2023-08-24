@@ -1,7 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/database.js';
-import userRoutes from './modules/user/routes/userRoutes.js'
+import userRoutes from './modules/user/routes/userRoutes.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 dotenv.config();
@@ -11,6 +12,8 @@ connectDB();
 
 // Using middleware
 app.use(express.json());
+app.use(cookieParser());
+
 
 // User Route
 app.use('/', userRoutes)
