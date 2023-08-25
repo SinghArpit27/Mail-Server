@@ -49,15 +49,36 @@ class UserMailController {
             if (ccRecipients.length <= planLimits.maxCcCount){
                 if (bccRecipients.length <= planLimits.maxBccCount){
 
+
+
+
+
+
+
+
+                    const attachments = req.files;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     // console.log("Before data Adding");
-                    // Send the email logic here
+                    // Save Email logic here
                     const newMail = await new Mail({
                         sender: req.userId,
                         receiver: receiver._id,
-                        // cc: ccRecipientIds,
-                        // bcc: bccRecipientIds,
                         subject: req.body.subject,
                         message: req.body.message,
+                        attachments: []
                     });
 
                     newMail.cc = ccRecipientIds;
@@ -65,14 +86,29 @@ class UserMailController {
                     const mailData = await newMail.save();
                     // console.log("After data Saving And Saved Data: ", mailData);
 
+
+
+                    // If attachments were uploaded, process and save their paths
+                    if (attachments && attachments.length > 0) {
+                        attachments.forEach(attachment => {
+                            savedMail.attachments.push(attachment.path);
+                        });
+                        await savedMail.save();
+                    }
+                    
+
+
+
+
+
+
+
                     httpResponse(res, statusCode.CREATED, responseStatus.SUCCESS, responseMessages.SUCCESS);
 
                 }else{
-                    // return res.status(400).json({ error: 'Recipient limit exceeded for BCC.' });
                     httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.BCC_EXCEED);
                 }
             }else{
-                // return res.status(400).json({ error: 'Recipient limit exceeded for CC.' });
                 httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.CC_EXCEED);
             }
         } else {
