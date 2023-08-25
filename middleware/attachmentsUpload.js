@@ -1,6 +1,12 @@
 import multer from 'multer';
 import path from 'path';
 import User from '../models/userSchema.js';
+import { fileURLToPath } from 'url';
+
+
+// Get the directory path of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 // Attachments should be Image
@@ -8,9 +14,20 @@ const attachmentStorage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null,path.join(__dirname, '../public/uploads'));
     },
+    // destination: function (req, res, cb) {
+    //     cb(null, 'public/uploads' , function(){
+    //         if (error)
+    //         throw error;
+    //     });
+    //   },
+
       filename:function(req,file,cb){
           const name = Date.now() + '-' + file.originalname;
           cb(null, name);
+        // cb(null, file.fieldname + "_" + Date.now() + "_" + file.originalname,function(error1,success){
+        //     if(error1)
+        //     throw error1;
+        // });
       }
 });
 
@@ -44,4 +61,3 @@ const multipleUploads = multer({ storage: attachmentStorage, fileFilter: fileVal
 
 
 export default multipleUploads;
-

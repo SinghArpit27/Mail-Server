@@ -11,6 +11,9 @@ dotenv.config();
 // Establish Mongodb Connection
 connectDB();
 
+// this is for static config
+// app.use(express.static(__dirname + '/public'));
+
 // Using Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

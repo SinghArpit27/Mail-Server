@@ -23,6 +23,7 @@ export const responseMessages = {
     ATTACHMENT_EXCEED: "Attachment count exceeds for the plan limit",
     CC_EXCEED: "Recipient limit exceeded for CC",
     BCC_EXCEED: "Recipient limit exceeded for BCC",
+    FILEUPLOAD_EXCEED: "File Upload limit exceeded for Attachment",
 
     SUCCESS: 'Success',
     CREATED: 'Resource created successfully',
