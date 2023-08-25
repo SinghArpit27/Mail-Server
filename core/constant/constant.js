@@ -18,6 +18,11 @@ export const responseMessages = {
     PASSWORD_CHANGE: "Password changed successfully",
     PROFILE_UPDATE: "Profile update successfully",
     MAIL_SEND: "Mail Send Successfully",
+    MESSAGE_EXCEED: "Message limit exceeds for the plan",
+    RECIPIENT_EXCEED: "Recipient count exceeds for the plan limit",
+    ATTACHMENT_EXCEED: "Attachment count exceeds for the plan limit",
+    CC_EXCEED: "Recipient limit exceeded for CC",
+    BCC_EXCEED: "Recipient limit exceeded for BCC",
 
     SUCCESS: 'Success',
     CREATED: 'Resource created successfully',

@@ -6,10 +6,18 @@ const mailSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    recipients: {
-        to: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [],
-        cc: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [],
-        bcc: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [],
+    receiver: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    cc: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        default: [],
+    },
+    bcc: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        default: [],
     },
     subject: {
         type: String,
@@ -19,22 +27,22 @@ const mailSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    attachments: [
-    {
-        filename: String,
-        // Other attachment fields
+
+    attachments: {
+        type: Array,
+        default: [],
     },
-    ],
 
     forwardedTo: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
     softDeleted: {
-        type: [{type: mongoose.Schema.Types.ObjectId},], default: [], },
+        type: [{type: mongoose.Schema.Types.ObjectId},], default: [],
+    },
 
-    // Indexes
-    'recipients.cc': 1, // Index on 'cc' field within 'recipients' array
-    'recipients.bcc': 1,
+    // // Indexes
+    // 'recipients.cc': 1, // Index on 'cc' field within 'recipients' array
+    // 'recipients.bcc': 1,
 },
 {timestamps: true});
 
