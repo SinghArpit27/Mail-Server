@@ -10,18 +10,21 @@ const PLAN_LIMITS = {
         maxFileUploads: 1,
         maxBccCount: 2,
         maxCcCount: 2,
+        RAR_File_Upload: false,
     },
     [PLANS.INTERMEDIATE]: {
         characterLimit: 350,
         maxFileUploads: 3,
         maxBccCount: 4,
         maxCcCount: 4,
+        RAR_File_Upload: false,
     },
     [PLANS.ENTERPRISE]: {
         characterLimit: Infinity,
         maxFileUploads: Infinity,
         maxBccCount: Infinity,
         maxCcCount: Infinity,
+        RAR_File_Upload: true,
     },
 };
 
