@@ -171,7 +171,7 @@ class UserController {
         try {
             
             const userId = req.userId;
-            // console.log("User Id: " + userId);
+            console.log("User Id: " + userId);
 
             const userData = await User.findByIdAndUpdate(
                 { _id: userId },

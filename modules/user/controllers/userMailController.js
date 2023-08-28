@@ -255,8 +255,8 @@ import ForwardMail from '../../../models/forwardMailSchema.js';
             if(mailData){
                 const userData = await User.findById({ _id: userId });
                 if(userData){
-                    // const isDeleted = mailData.softDeleted.includes(userId);
-                    const isDeleted = mailData.softDeleted.length > 0;
+                    const isDeleted = mailData.softDeleted.includes(userId);
+                    // const updatedIsDelete = isDeleted.length > 0;
                     if(!isDeleted){
                         if (!mailData.bookmarks.includes(userId)) {
 
@@ -266,7 +266,8 @@ import ForwardMail from '../../../models/forwardMailSchema.js';
                                 mailData.receiver == userId,
                                 mailData.sender == userId
                             ].some(Boolean);
-    
+
+                            // check User available exist in Mail Data or not
                             if(userAssociated){
                                 console.log(userId);
                                 mailData.bookmarks.push(userId);
@@ -300,15 +301,29 @@ import ForwardMail from '../../../models/forwardMailSchema.js';
             const userId = req.userId;
             const mailId = req.params.id;
 
-            const mailData = await Mail.find({ _id: mailId });
+            // const mailData = await Mail.find({ _id: mailId });
+            const mailData = await Mail.findById(mailId, { timestamp: 0, _id: 0 }); // Excluding timestamp and object ID
             if(mailData){
                 const userData = await User.findById({ _id: userId });
                 if(userData){
-                    const isDeleted = mailData.softDeleted.includes(userId);
-                    if(!isDeleted){
-                        
-                        
-                        
+                    const isDeleted = mailData.softDeleted && mailData.softDeleted.includes(userId);
+                    if(isDeleted !== undefined && !isDeleted){
+
+                        // Getting Recipient data to get their Emails
+                        const senderData = await User.findById(mailData.sender); // Assuming sender is a user ID
+                        const receiverData = await User.findById(mailData.receiver); // Assuming receiver is a user ID
+                        const ccUsersData = await User.find({ _id: { $in: mailData.cc } }); // Assuming cc is an array of user IDs
+
+                        const responseData = {
+                            sender: senderData.email,
+                            receiver: receiverData.email,
+                            cc: ccUsersData.map(user => user.email),
+                            subject: mailData.subject,
+                            message: mailData.message,
+                            attachments: mailData.attachments
+                        };
+                        httpResponse(res, statusCode.OK, responseStatus.SUCCESS, responseMessages.SUCCESS, responseData);
+
                     }else{
                         httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.MAIL_DELETED_ERROR);
                     }
@@ -319,6 +334,58 @@ import ForwardMail from '../../../models/forwardMailSchema.js';
                 httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.EMAIL_NOT_FOUND);
             }
 
+        } catch (error) {
+            httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR, error.message);
+        }
+    }
+
+    export const getSentMail = async(req,res) => {
+        try {
+            
+            const userId = req.userId;
+            // console.log("UserId: " + userId);
+
+            // const sentMails = await Mail.find({ sender: userId }, { timestamp: 0, _id: 0 }); // Excluding timestamp and object ID\
+            const sentMails = await Mail.find({ sender: userId, softDeleted: { $ne: userId } }, { timestamp: 0, _id: 0 }); // Excluding timestamp and object ID
+            if (sentMails.length > 0) {
+                const responseData = sentMails.map(mailData => {
+                    return {
+                        receiver: mailData.receiver,
+                        cc: mailData.cc,
+                        subject: mailData.subject,
+                        message: mailData.message,
+                        attachments: mailData.attachments
+                    };
+                });
+                httpResponse(res, statusCode.OK, responseStatus.SUCCESS, responseMessages.SUCCESS, responseData);
+            } else {
+                httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.NO_SENT_MAILS);
+            }
+        } catch (error) {
+            httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR, error.message);
+        }
+    }
+    
+    export const getInboxMail = async(req,res) => {
+        try {
+            
+            const userId = req.userId;
+
+            const receivedMails = await Mail.find({ receiver: userId, softDeleted: { $ne: userId } }, { timestamp: 0, _id: 0 }); // Excluding timestamp and object ID
+            if(receivedMails.length > 0){
+                const responseData = receivedMails.map(mailData => {
+                    return{
+                        sender: mailData.sender,
+                        cc: mailData.cc,
+                        subject: mailData.subject,
+                        message: mailData.message,
+                        attachments: mailData.attachments
+                    };
+                });
+                httpResponse(res, statusCode.OK, responseStatus.SUCCESS, responseMessages.SUCCESS, responseData);
+            }else{
+                httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.NO_RECEIVED_MAILS);
+            }
         } catch (error) {
             httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR, error.message);
         }

@@ -32,6 +32,8 @@ export const responseMessages = {
     BOOKMARK_SUCCESS: "Mail bookmark successfully",
     BOOKMARK_ERROR: "You are Unauthorized User, You cannot bookmark this mail",
     ALREADY_BOOKMARKED: "You are Already Bookmarked this mail",
+    NO_SENT_MAILS: "You don't have any sent Mails, Start Your Journey to sent a first mail",
+    NO_RECEIVED_MAILS: "You don't have any Mail in Inbox",
 
 
     SUCCESS: 'Success',
