@@ -33,11 +33,15 @@ const mailSchema = new mongoose.Schema({
         default: [],
     },
 
-    forwardedTo: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    // forwardedTo: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    bookmarks: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        default: [],
+    },
 
     softDeleted: {
-        type: [{type: mongoose.Schema.Types.ObjectId},], default: [],
+        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+        default: [],
     },
 
     // // Indexes
@@ -46,7 +50,4 @@ const mailSchema = new mongoose.Schema({
 },
 {timestamps: true});
 
-// mailSchema.index({ 'recipients.cc': 1 }); // Create index on the 'cc' field within the 'recipients' array
-// mailSchema.index({ 'recipients.bcc': 1 });
-    
 export default mongoose.model('Mail', mailSchema);
