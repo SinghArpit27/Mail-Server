@@ -343,23 +343,28 @@ import ForwardMail from '../../../models/forwardMailSchema.js';
         try {
             
             const userId = req.userId;
-            // console.log("UserId: " + userId);
+            const userData = await User.findById({ _id: userId });
+            if(userData){
+                const sentMails = await Mail.find({ sender: userId, softDeleted: { $ne: userId } }, { timestamp: 0, _id: 0 })
+                .populate('receiver', 'email') // Populate 'receiver' field with email
+                .populate('cc', 'email'); // Populate 'cc' field with email
 
-            // const sentMails = await Mail.find({ sender: userId }, { timestamp: 0, _id: 0 }); // Excluding timestamp and object ID\
-            const sentMails = await Mail.find({ sender: userId, softDeleted: { $ne: userId } }, { timestamp: 0, _id: 0 }); // Excluding timestamp and object ID
-            if (sentMails.length > 0) {
-                const responseData = sentMails.map(mailData => {
-                    return {
-                        receiver: mailData.receiver,
-                        cc: mailData.cc,
-                        subject: mailData.subject,
-                        message: mailData.message,
-                        attachments: mailData.attachments
-                    };
-                });
-                httpResponse(res, statusCode.OK, responseStatus.SUCCESS, responseMessages.SUCCESS, responseData);
-            } else {
-                httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.NO_SENT_MAILS);
+                if (sentMails.length > 0) {
+                    const responseData = sentMails.map(mailData => {
+                        return {
+                            receiver: mailData.receiver.email,
+                            cc: mailData.cc.map(user => user.email), // Map 'cc' recipients to email addresses
+                            subject: mailData.subject,
+                            message: mailData.message,
+                            attachments: mailData.attachments
+                        };
+                    });
+                    httpResponse(res, statusCode.OK, responseStatus.SUCCESS, responseMessages.SUCCESS, responseData);
+                } else {
+                    httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.NO_SENT_MAILS);
+                }
+            }else{
+                httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
             }
         } catch (error) {
             httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR, error.message);
@@ -370,22 +375,120 @@ import ForwardMail from '../../../models/forwardMailSchema.js';
         try {
             
             const userId = req.userId;
-
-            const receivedMails = await Mail.find({ receiver: userId, softDeleted: { $ne: userId } }, { timestamp: 0, _id: 0 }); // Excluding timestamp and object ID
-            if(receivedMails.length > 0){
-                const responseData = receivedMails.map(mailData => {
-                    return{
-                        sender: mailData.sender,
-                        cc: mailData.cc,
-                        subject: mailData.subject,
-                        message: mailData.message,
-                        attachments: mailData.attachments
-                    };
-                });
-                httpResponse(res, statusCode.OK, responseStatus.SUCCESS, responseMessages.SUCCESS, responseData);
+            const userData = await User.findById({ _id: userId });
+            if(userData){
+                // Retrieve emails where the user is in receiver, cc, or bcc fields and not soft deleted
+                const receivedMails = await Mail.find({
+                    $and: [
+                        {
+                            $or: [
+                                { receiver: userId },
+                                { cc: userId }
+                            ]
+                        },
+                        { softDeleted: { $ne: userId } }
+                    ]
+                }, { timestamp: 0, _id: 0 })
+                    .populate('sender', 'email') // Populate 'sender' field with email
+                    .populate('cc', 'email'); // Populate 'cc' field with email
+    
+                if (receivedMails.length > 0) {
+                    const responseData = receivedMails.map(mailData => {
+                        return {
+                            sender: mailData.sender.email,
+                            cc: mailData.cc.map(user => user.email),
+                            subject: mailData.subject,
+                            message: mailData.message,
+                            attachments: mailData.attachments
+                        };
+                    });
+                    httpResponse(res, statusCode.OK, responseStatus.SUCCESS, responseMessages.SUCCESS, responseData);
+                } else {
+                    httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.NO_RECEIVED_MAILS);
+                }
             }else{
-                httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.NO_RECEIVED_MAILS);
+                httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
             }
+        } catch (error) {
+            httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR, error.message);
+        }
+    }
+
+    export const getforwardedMailByUser = async(req,res) => {
+        try {
+            
+            const userId = req.userId;
+
+            const userData = await User.findById({ _id: userId });
+            if (userData) {
+                // Retrieve forwarded emails by the user
+                const forwardedByUserMails = await ForwardMail.find({ sender: userId })
+                    .populate('mailId', { timestamp: 0, _id: 0 }) // Excluding timestamp and object ID from the mail
+                    .populate('receiver', 'email');
+
+                // Filter out forwarded mails that have been deleted
+                const filteredMails = forwardedByUserMails.filter(forwardedMailData => {
+                    return !forwardedMailData.mailId.softDeleted.includes(userId);
+                });
+
+                if (filteredMails.length > 0) {
+                    const responseData = filteredMails.map(forwardedMailData => {
+                        return {
+                            receiver: forwardedMailData.receiver.map(user => user.email),
+                            subject: forwardedMailData.mailId.subject,
+                            message: forwardedMailData.mailId.message,
+                            attachments: forwardedMailData.mailId.attachments
+                        };
+                    });
+
+                    httpResponse(res, statusCode.OK, responseStatus.SUCCESS, responseMessages.SUCCESS, responseData);
+                } else {
+                    httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.NO_FORWARDED_MAILS_BY_USER);
+                }
+            } else {
+                httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
+            }
+        } catch (error) {
+            httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR, error.message);
+        }
+    }
+
+    export const getForwardedMailByOthers = async(req,res) => {
+        try {
+            
+            const userId = req.userId;
+            const userData = await User.findById({ _id: userId });
+            
+            if (userData) {
+                // Retrieve forwarded emails to the user
+                const forwardedToUserMails = await ForwardMail.find({ receiver: userId })
+                    .populate('mailId', { timestamp: 0, _id: 0 }) // Excluding timestamp and object ID from the mail
+                    .populate('sender', 'email');
+
+                // Filter out forwarded mails that have been deleted
+                const filteredMails = forwardedToUserMails.filter(forwardedMailData => {
+                    return !forwardedMailData.mailId.softDeleted.includes(userId);
+                });
+
+                if (filteredMails.length > 0) {
+                    const responseData = filteredMails.map(forwardedMailData => {
+                        return {
+                            sender: forwardedMailData.sender.email,
+                            subject: forwardedMailData.mailId.subject,
+                            message: forwardedMailData.mailId.message,
+                            attachments: forwardedMailData.mailId.attachments
+                        };
+                    });
+
+                    httpResponse(res, statusCode.OK, responseStatus.SUCCESS, responseMessages.SUCCESS, responseData);
+                } else {
+                    httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.NO_FORWARDED_MAILS_TO_USER);
+                }
+            } else {
+                httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
+            }
+
+
         } catch (error) {
             httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR, error.message);
         }

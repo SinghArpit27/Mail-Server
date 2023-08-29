@@ -1,163 +1,674 @@
-// import { PLANS, getPlanLimits } from '../../../helper/plans.js';
-// import Mail from '../../../models/mailSchema.js';
-// import User from '../../../models/userSchema.js';
-// import httpResponse from '../../../helper/httpResponse.js';
-// import { responseMessages, responseStatus, statusCode } from '../../../core/constant/constant.js';
-
-
-// class UserMailController {
-
-//     static async composeMail(req,res){
-
-//        try {
-//         // Sender ID and It's Plan
-//         const userId = req.userId;
-//         // console.log("User Id: " + userId);
-//         const userData = await User.findById({ _id: userId });
-//         const planName = userData.plan;
-
-
-
-//         // Get CC Mails and Convert it into Ids
-//         let ccRecipients = req.body.cc ? req.body.cc.split(',') : [];
-//         // Find the user IDs for the given email addresses in ccRecipients
-//         const ccRecipientEmails = ccRecipients.map(email => email.trim());
-//         const ccRecipientUsers = await User.find({ email: { $in: ccRecipientEmails } });
-//         // Extract the IDs from the found users
-//         const ccRecipientIds = ccRecipientUsers.map(user => user._id);
-
-
-//         // Get BCC Mails and Convert it into Ids
-//         let bccRecipients = req.body.bcc ? req.body.bcc.split(',') : [];
-//         // Find the user IDs for the given email addresses in bccRecipients
-//         const bccRecipientEmails = bccRecipients.map(email => email.trim());
-//         const bccRecipientUsers = await User.find({ email: { $in: bccRecipientEmails } });
-//         // Extract the IDs from the found users
-//         const bccRecipientIds = bccRecipientUsers.map(user => user._id);
-
-        
-
-//         // Messsage and Receiver Data
-//         const messageContent = req.body.message;
-//         const receiver = await User.findOne({ email: req.body.to });
-
-//         // Get plan limits based on the user's subscription plan
-//         const planLimits = getPlanLimits(planName);
-
-//         if (messageContent.length <= planLimits.characterLimit) {
-//             // Validate recipients based on plan limits
-//             if (ccRecipients.length > planLimits.maxCcCount){
-//                 return res.status(400).json({ error: 'Recipient limit exceeded for CC.' });
-//                 // httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.CC_EXCEED);
-//             }
-//             if (bccRecipients.length > planLimits.maxBccCount){
-//                 // return res.status(400).json({ error: 'Recipient limit exceeded for BCC.' });
-//                 httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.BCC_EXCEED);
-//             }
-            
-//             console.log("Before data Adding");
-//             // Send the email logic here
-//             const newMail = await new Mail({
-//                 sender: req.userId,
-//                 receiver: receiver._id,
-//                 // cc: ccRecipientIds,
-//                 // bcc: bccRecipientIds,
-//                 subject: req.body.subject,
-//                 message: req.body.message,
-//             });
-//             // console.log("After data Adding and new Mail data:", newMail);
-
-//             newMail.cc = ccRecipientIds;
-//             newMail.bcc = bccRecipientIds;
-
-//             const mailData = await newMail.save();
-//             // console.log("After data Saving And Saved Data: ", mailData);
-    
-//             httpResponse(res, statusCode.CREATED, responseStatus.SUCCESS, responseMessages.SUCCESS);
-//         } else {
-//             httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.MESSAGE_EXCEED);
-//         }
-
-//        } catch (error) {
-//             httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR);
-//        }
-
-//     }
-// }
-
-// export default UserMailController;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const multer = require("multer");
-// const path = require("path");
-// user_route.use(express.static('public'));
-
-// // PDF File
-// const pdfStorage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null,path.join(__dirname, '../public/projectUploads'));
-//   },
-//     filename:function(req,file,cb){
-//         const name = Date.now() + '-' + file.originalname;
-//         cb(null, name);
-//     }
-// });
-
-// const pdfUpload = multer({storage:pdfStorage});
-
-// const multipleUploads = pdfUpload.fields([{ name: 'image', maxCount: 1 }, { name: 'synopsis', maxCount: 1 },{ name: 'report', maxCount: 1 }]);
-
-
-
-
-
-
-// // Sample Mail 700+ charchters in this mail
-// "Dear Managers Name I hope this message finds you in good health. I am writing to respectfully request an extension of my current leave which was initially approved for the period from start date to end date. I understand the inconvenience my prolonged absence may cause and I deeply appreciate your understanding and consideration in this matter. Unfortunately circumstances beyond my control have arisen requiring me to extend my leave. Briefly explain the reason for the extension such as a medical condition that requires further treatment or an unforeseen family emergency. Given the situation I find myself in a position where I am unable to resume my duties as planned. I understand the importance of my role within the team and the responsibilities that come with it. Rest assured I have taken steps to ensure a smooth continuation of operations during my absence. I have thoroughly briefed colleague's name about ongoing projects and responsibilities and they have kindly agreed to manage these in my absence. I apologize for any inconvenience this may cause and assure you that I am committed to minimizing disruptions. I remain fully dedicated to the success of our team and our projects. During my extended leave I will be available via email and phone to address any urgent matters that may arise. I am truly grateful for your understanding and support during this challenging time. I will make every effort to keep you updated on my progress and provide any necessary documentation to support my request for an extension. Thank you for considering my request. I am looking forward to a swift resolution of my situation and returning to work as soon as possible. Please do not hesitate to reach out if you require any further information. Wishing you all the best. Warm regards Your Name Your Contact Information"
-
-
-
-// 336 charchter in this text
-// "Dear Managers Name I hope this message finds you in good health. I am writing to respectfully request an extension of my current leave which was initially approved for the period from [start date] to [end date]. I understand the inconvenience my prolonged absence may cause and I deeply appreciate your understanding and consideration in this matter."
+import {
+    userInput,
+    loginInput,
+    changePassword,
+    update,
+    compose,
+  } from "./component.js";
+  
+  export const userPaths = {
+    "/auth/signup": {
+      post: {
+        tags: ["Users Auth"],
+        summary: "Register User",
+        description: "Register user",
+        operationId: "registerser",
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: userInput,
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "User registered successfully",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+              description: "UNauthorized",
+              status: {
+                type: "string",
+              },
+              message: {
+                type: "string",
+              },
+            },
+        },
+      },
+    },
+    "/auth/login": {
+      post: {
+        tags: ["Users Auth"],
+        summary: "Login",
+        description: "Login",
+        operationId: "Login",
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: loginInput,
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Login successfully",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+              description: "UNauthorized",
+              status: {
+                type: "string",
+              },
+              message: {
+                type: "string",
+              },
+            },
+        },
+      },
+    },
+    "/auth/changePassword": {
+      post: {
+        tags: ["Users Auth"],
+        summary: "changePassword",
+        description: "Change Password",
+        operationId: "Change Password",
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: changePassword,
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Password changed successfully",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+              description: "UNauthorized",
+              status: {
+                type: "string",
+              },
+              message: {
+                type: "string",
+              },
+            },
+        },
+      },
+    },
+    "/auth/update": {
+      post: {
+        tags: ["Users Auth"],
+        summary: "update",
+        description: "Update",
+        operationId: "Update",
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: update,
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "User info Updated",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+              description: "UNauthorized",
+              status: {
+                type: "string",
+              },
+              message: {
+                type: "string",
+              },
+            },
+        },
+      },
+    },
+    "/mail/compose": {
+      post: {
+        tags: ["UserMail"],
+        summary: "Compose Mail",
+        description: "Compose Mai",
+        operationId: "Compose",
+        requestBody: {
+          content: {
+            "multipart/form-data": {
+              schema: compose,
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Mail composed",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+              description: "UNauthorized",
+              status: {
+                type: "string",
+              },
+              message: {
+                type: "string",
+              },
+            },
+        },
+      },
+    },
+    "/mail/reply/{id}": {
+      post: {
+        tags: ["UserMail"],
+        summary: "Reply Mail",
+        description: "reply a Mail",
+        operationId: "reply a Mail",
+        requestBody: {
+          content: {
+            "multipart/form-data": {
+              schema: compose,
+            },
+          },
+        },
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "mail id to reply a mail",
+            required: "true",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Mail replyed",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+              description: "UNauthorized",
+              status: {
+                type: "string",
+              },
+              message: {
+                type: "string",
+              },
+            },
+        },
+      },
+    },
+    "/mail/bookmark/{id}": {
+      post: {
+        tags: ["UserMail"],
+        summary: "Bookmark a Mail",
+        description: "Bookmark a Mail",
+        operationId: "Bookmark a Mail",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "Mail id to bookmark a mail",
+            required: "true",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Mail bookmarked",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+            description: "UNauthorized",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    "/mail/singlemail/{id}": {
+      get: {
+        tags: ["UserMail"],
+        summary: "Get single Mail",
+        description: "Get single Mail",
+        operationId: "Get single  Mail",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "Mail id to Get single Mail",
+            required: "true",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "single Mail",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+            description: "UNauthorized",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    "/mail/delete/{id}": {
+      post: {
+        tags: ["UserMail"],
+        summary: "Delete  Mail",
+        description: "Delete authorized Mail",
+        operationId: "Delete authorized Mail",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "Mail id to delete a  Mail",
+            required: "true",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Ok",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+            description: "UNauthorized",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    "/mail/forward/{id}": {
+      post: {
+        tags: ["UserMail"],
+        summary: "Forward  Mail",
+        description: "Forward Mail",
+        operationId: "Forward Mail",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "Mail id to forward a Mail",
+            required: "true",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Ok",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+            description: "UNauthorized",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    "/mail/getforward": {
+      get: {
+        tags: ["UserMail"],
+        summary: "Forward  Mail",
+        description: "mails forwarded by users to others",
+        operationId: "mails forwarded by users to others",
+        responses: {
+          200: {
+            description: "Ok",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+            description: "UNauthorized",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    "/mail/forwardedtouser": {
+      get: {
+        tags: ["UserMail"],
+        summary: "Forward  Mail",
+        description: "mails forwarded by others to user",
+        operationId: "mails forwarded by others to user",
+        responses: {
+          200: {
+            description: "Ok",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+            description: "UNauthorized",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    "/mail/inbox": {
+      get: {
+        tags: ["UserMail"],
+        summary: "Inbox  Mails",
+        description: "Inbox mails of user",
+        operationId: "Inbox mails of user",
+        responses: {
+          200: {
+            description: "Ok",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+            description: "UNauthorized",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    "/mail/sent": {
+      get: {
+        tags: ["UserMail"],
+        summary: "Sent  Mails",
+        description: "Sent mails of user",
+        operationId: "Sent mails of user",
+        responses: {
+          200: {
+            description: "Ok",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+            description: "UNauthorized",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    "/mail/search/{key}": {
+      get: {
+        tags: ["UserMail"],
+        summary: "Search  Mail",
+        description: "Search Mail",
+        operationId: "Search Mail",
+        parameters: [
+          {
+            name: "key",
+            in: "path",
+            description: "key to search mails",
+            required: "true",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Ok",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          400: {
+            description: "Bad Request",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+          401: {
+            description: "UNauthorized",
+            status: {
+              type: "string",
+            },
+            message: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+  };
+  

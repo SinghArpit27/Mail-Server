@@ -89,27 +89,21 @@ class UserController {
 
             const userData = await User.findOne({email});
             if(userData){
-
                 if(userData.is_varified == 0){
 
                     // Generate a new OTP and set the expiration time
                     const otp = generateOTP();
                     const otpExp = new Date(Date.now() + 2 * 60000).getTime(); // 2 minutes
-
                     phoneOTP(userData.name, userData.phone, otp);
-
                     const updateInfo = await User.updateOne({ _id: userData._id}, { $set:{ otpExpiration: otpExp, otpVerification: otp } });
-
                     httpResponse(res, statusCode.CREATED, responseStatus.SUCCESS, responseMessages.OTP_SEND);
 
                 }else{
                     httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.ALREADY_VERIFIED);
                 }
-
             }else{
                 httpResponse(res, statusCode.NOT_FOUND, responseStatus.FAILURE, responseMessages.EMAIL_NOT_FOUND);
             }
-
         } catch (error) {
             httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR);
         }

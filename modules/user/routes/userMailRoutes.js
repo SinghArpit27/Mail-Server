@@ -4,7 +4,7 @@ import { authenticateToken } from '../../../middleware/jwtAuthorization.js';
 import { mailValidation } from '../../../middleware/mailValidation.js';
 import { expressValidationResult } from '../../../helper/validationError.js';
 import multipleUploads from '../../../middleware/attachmentsUpload.js';
-import { bookmarkMail, composeMail, deleteMail, forwardMail, getInboxMail, getSentMail, getSingleMail, replyMail } from '../controllers/userMailController.js';
+import { bookmarkMail, composeMail, deleteMail, forwardMail, getForwardedMailByOthers, getInboxMail, getSentMail, getSingleMail, getforwardedMailByUser, replyMail } from '../controllers/userMailController.js';
 
 const router = express.Router();
 router.use(express.static('public'));
@@ -39,5 +39,11 @@ router.get('/getSentMails', getSentMail);
 
 // Get Inbox Route
 router.get('/getInboxMails', getInboxMail);
+
+// Get Forwarded Mails by the User / send by me
+router.get('/getforwardedMailByUser', getforwardedMailByUser);
+
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4ODcxOGUwNThjMDRhYmVkYjI4ZjEiLCJpYXQiOjE2OTMyODc4NDYsImV4cCI6MTY5MzM5NTg0Nn0.FeQIK5nIf9gW6UfyxaXbOudFKIGtN53CAB3eCCddU_E/ send by others
+router.get('/getForwardedMailByOthers', getForwardedMailByOthers);
 
 export default router;
