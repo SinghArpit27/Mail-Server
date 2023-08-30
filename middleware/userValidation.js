@@ -45,6 +45,12 @@ export const registerValidation = [
   check("password")
     .notEmpty().withMessage("Enter password")
     .isLength({ min: 4 }).withMessage("Password must be at least 4 characters"),
+
+  // Plan validation
+  check('plan')
+    .if(check('plan').exists())
+    .notEmpty().withMessage('Enter plan')
+    .isIn(['Basic Plan', 'Intermediate Plan', 'Enterprise Plan']).withMessage('Invalid plan name. Please choose from Basic Plan, Intermediate Plan, or Enterprise Plan')
 ];
 
 // OTP Validation
@@ -141,4 +147,13 @@ export const UpdateProfileValidation = [
 
     return true;
   }),
+  
+  check('plan')
+    .if(check('plan').exists())
+    .notEmpty().withMessage('Enter plan')
+    .isIn(['Basic Plan', 'Intermediate Plan', 'Enterprise Plan']).withMessage('Invalid plan name. Please choose from Basic Plan, Intermediate Plan, or Enterprise Plan')
+
 ];
+
+
+

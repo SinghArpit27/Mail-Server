@@ -43,7 +43,7 @@ router.get('/getInboxMails', getInboxMail);
 // Get Forwarded Mails by the User / send by me
 router.get('/getforwardedMailByUser', getforwardedMailByUser);
 
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4ODcxOGUwNThjMDRhYmVkYjI4ZjEiLCJpYXQiOjE2OTMyODc4NDYsImV4cCI6MTY5MzM5NTg0Nn0.FeQIK5nIf9gW6UfyxaXbOudFKIGtN53CAB3eCCddU_E/ send by others
+// Get Forwarded Mails to the User / send by others
 router.get('/getForwardedMailByOthers', getForwardedMailByOthers);
 
 export default router;

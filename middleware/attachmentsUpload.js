@@ -14,21 +14,11 @@ const attachmentStorage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null,path.join(__dirname, '../public/uploads'));
     },
-    // destination: function (req, res, cb) {
-    //     cb(null, 'public/uploads' , function(){
-    //         if (error)
-    //         throw error;
-    //     });
-    //   },
 
-      filename:function(req,file,cb){
-          const name = Date.now() + '-' + file.originalname;
-          cb(null, name);
-        // cb(null, file.fieldname + "_" + Date.now() + "_" + file.originalname,function(error1,success){
-        //     if(error1)
-        //     throw error1;
-        // });
-      }
+    filename:function(req,file,cb){
+        const name = Date.now() + '-' + file.originalname;
+        cb(null, name);
+    }
 });
 
 const fileValidation = async (req, file, cb) => {
@@ -45,7 +35,7 @@ const fileValidation = async (req, file, cb) => {
             file.originalname.endsWith('.r00') ||
             file.originalname.endsWith('.r01') ||
             file.originalname.endsWith('.rev') ||
-            file.originalname.endsWith('.rar1')) {
+            file.originalname.endsWith('.rar')) {
                 cb(new Error('rar files are not allowed'));
             } else {
                 cb(null, true);

@@ -165,19 +165,25 @@ class UserController {
         try {
             
             const userId = req.userId;
-            console.log("User Id: " + userId);
+            // console.log("User Id: " + userId);
 
-            const userData = await User.findByIdAndUpdate(
-                { _id: userId },
-                { $set: { name: req.body.name, phone: req.body.phone, plan: req.body.plan } },
-                { new: true }
-            ).select({ name: 1, email: 1, phone: 1, plan: 1, _id: 0 });
-            if (!userData) {
-                httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
-            }else{
-                httpResponse(res, statusCode.CREATED, responseStatus.SUCCESS, responseMessages.PROFILE_UPDATE, userData);
+            
+            const checkExistingPhone = await User.findOne({ _id: { $ne: userId }, phone: req.body.phone });
+            if (checkExistingPhone) {
+                httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.PHONE_ALREADY_EXIST);
+            } else {
+                const userData = await User.findByIdAndUpdate(
+                    { _id: userId },
+                    { $set: { name: req.body.name, phone: req.body.phone, plan: req.body.plan } },
+                    { new: true }
+                ).select({ name: 1, email: 1, phone: 1, plan: 1, _id: 0 });
+                if (!userData) {
+                    httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
+                }else{
+                    httpResponse(res, statusCode.CREATED, responseStatus.SUCCESS, responseMessages.PROFILE_UPDATE, userData);
+                }
             }
-
+    
         } catch (error) {
             httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR);
         }
@@ -185,3 +191,26 @@ class UserController {
 }
 
 export default UserController;
+
+
+// static async updateProfile(req,res){
+//     try {
+        
+//         const userId = req.userId;
+//         console.log("User Id: " + userId);
+
+//         const userData = await User.findByIdAndUpdate(
+//             { _id: userId },
+//             { $set: { name: req.body.name, phone: req.body.phone, plan: req.body.plan } },
+//             { new: true }
+//         ).select({ name: 1, email: 1, phone: 1, plan: 1, _id: 0 });
+//         if (!userData) {
+//             httpResponse(res, statusCode.BAD_REQUEST, responseStatus.FAILURE, responseMessages.UNAUTHORIZED);
+//         }else{
+//             httpResponse(res, statusCode.CREATED, responseStatus.SUCCESS, responseMessages.PROFILE_UPDATE, userData);
+//         }
+
+//     } catch (error) {
+//         httpResponse(res, statusCode.INTERNAL_SERVER_ERROR, responseStatus.FAILURE, responseMessages.INTERNAL_SERVER_ERROR);
+//     }
+// }

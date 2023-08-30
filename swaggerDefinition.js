@@ -12,7 +12,7 @@ export const swaggerDefinition = {
   },
   servers: [
     {
-      url: "http://localhost:4000/",
+      url: "http://localhost:4000",
       // description: "Version 1",
     },
   ],

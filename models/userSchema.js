@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
         validator: function (value) {
             return allowedPlanNames.includes(value);
         },
-        message: 'Invalid plan name. Please choose from Basic Plan, Intermediate Plan, or Enterprise Plan.',
+        message: 'Invalid plan name. Please choose from Basic Plan, Intermediate Plan, or Enterprise Plan',
         },
     },
     otpVerification:{

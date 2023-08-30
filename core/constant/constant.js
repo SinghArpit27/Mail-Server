@@ -36,6 +36,7 @@ export const responseMessages = {
     NO_RECEIVED_MAILS: "You don't have any Mail in Inbox",
     NO_FORWARDED_MAILS_BY_USER: "You are not Forward any Mail yet ",
     NO_FORWARDED_MAILS_TO_USER: "You don't have any forwarded Mails",
+    PHONE_ALREADY_EXIST: "Mobile number already exists",
 
 
     SUCCESS: 'Success',
