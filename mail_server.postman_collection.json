@@ -1,0 +1,601 @@
+{
+	"info": {
+		"_postman_id": "3bbb1028-d341-4841-ace4-dad834dc85d6",
+		"name": "mail_server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20630793"
+	},
+	"item": [
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Arpit Singh\",\r\n    \"email\":\"singharpit0027@gmail.com\",\r\n    \"phone\": 9369788354,\r\n    \"password\":\"arpit\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/register",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OTP-Verify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"singharpit0027@gmail.com\",\r\n    \"otp\":\"304474\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/verifyUser",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"verifyUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resend OTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"singharpit0027@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/resendOTP",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"resendOTP"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"singharpit0027@gmail.com\",\r\n    \"password\": \"arpit\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU1YzM5MjhiYzc1MzZlNzg1MjM4ZDQiLCJpYXQiOjE2OTI4NzIyMjQsImV4cCI6MTY5Mjg3NDAyNH0.z8ofWTqt4Z8t7edm8SMJbMibW9gogogrMVi4sCdj9W0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\":\"arpit\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/changePassword",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"changePassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4NTg2ZjJmNTRkZmIzYzA5NTBmM2UiLCJpYXQiOjE2OTMyMTQ0MDAsImV4cCI6MTY5MzMyMjQwMH0.j7Ytz0FbxVpCNC5WdblAsobEcc-fWQn7x_M7CwMGu_o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Arpit Singhhhh\",\r\n    \"phone\": 9369788355\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/updateProfile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"updateProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Compose Mail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Charset",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU3NDU2Mzk1MjM1M2QxNWFiNzk4MzgiLCJpYXQiOjE2OTMzNzM4ODIsImV4cCI6MTY5MzQ4MTg4Mn0.RkpCLl9JC-VV0cDru7-8IFyk42rwv0NKb1qqVrNfstY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "to",
+							"value": "arpit@gmail.com",
+							"contentType": "multipart/form-data",
+							"type": "text"
+						},
+						{
+							"key": "subject",
+							"value": "rar testing3",
+							"contentType": "multipart/form-data",
+							"type": "text"
+						},
+						{
+							"key": "message",
+							"value": "I hope this message finds you in good health. I am writing to respectfully request an extension of my current leave which was initially approved for the period from [start date] to [end date]. I understand the inconvenience my",
+							"contentType": "multipart/form-data",
+							"type": "text"
+						},
+						{
+							"key": "attachments",
+							"contentType": "multipart/form-data",
+							"type": "file",
+							"src": "/C:/Users/Lyceum/Desktop/home-bg.rar"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/composeMail",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"composeMail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reply Mail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4ODdhZWUwNThjMDRhYmVkYjI4ZmYiLCJpYXQiOjE2OTMxMTg2OTcsImV4cCI6MTY5MzIyNjY5N30.5ahHtQsxOJIxek3ne8DW3wCviEjgnA_C87QGL9jBEDg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "to",
+							"value": "admin2@gmail.com",
+							"contentType": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "cc",
+							"value": "alex@gmail.com, arpit@gmail.com,\nsingharpit0027@gmail.com,\nadmin2@gmail.com",
+							"contentType": "",
+							"type": "text"
+						},
+						{
+							"key": "bcc",
+							"value": "admin@gmail.com",
+							"contentType": "",
+							"type": "text"
+						},
+						{
+							"key": "message",
+							"value": "Dear Manager, I hope this message finds you in good health. I understand the inconvenience my prolonged absence may cause and I deeply appreciate your understanding and consideration in this matter.",
+							"contentType": "",
+							"type": "text"
+						},
+						{
+							"key": "subject",
+							"value": "Reply Testing 3",
+							"contentType": "",
+							"type": "text"
+						},
+						{
+							"key": "attachments",
+							"type": "file",
+							"src": [
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/home-bg.png",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/home-bg1.png",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic1.jpeg",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic2.jpeg",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic4.jpeg",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic5.jpeg",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic6.jpeg",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic7.jpeg",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic8.jpeg",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic9.jpeg",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic10.jpeg",
+								"/C:/Users/Lyceum/Desktop/EMS/public/img/profile-pic11.jpg"
+							]
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/replyMail/64e90d6a1d34eaf3db96ea7d",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"replyMail",
+						"64e90d6a1d34eaf3db96ea7d"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "64e90d6a1d34eaf3db96ea7d",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forward Mail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4ODdhZWUwNThjMDRhYmVkYjI4ZmYiLCJpYXQiOjE2OTMxMTg2OTcsImV4cCI6MTY5MzIyNjY5N30.5ahHtQsxOJIxek3ne8DW3wCviEjgnA_C87QGL9jBEDg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/forwardMail/64e90d6a1d34eaf3db96ea7d",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"forwardMail",
+						"64e90d6a1d34eaf3db96ea7d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Mail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU3NDU2Mzk1MjM1M2QxNWFiNzk4MzgiLCJpYXQiOjE2OTMxMzY2MTQsImV4cCI6MTY5MzI0NDYxNH0.LVBZ1ov_osoGdPYIqhWpAlnqg1dfLNPXp4-I2M9HKRo",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/deleteMail/64eb32563afddb51c2f19bcd",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"deleteMail",
+						"64eb32563afddb51c2f19bcd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bookmark Mail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU3NDU2Mzk1MjM1M2QxNWFiNzk4MzgiLCJpYXQiOjE2OTMyMDE3NjgsImV4cCI6MTY5MzMwOTc2OH0.0kC00a94GGQY0PYe5GkbizuhYNYfz24AEQXiQoaGUXs",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/bookmarkMail/64eaf3677c0687b9632806cc",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"bookmarkMail",
+						"64eaf3677c0687b9632806cc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Mail",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU3NDU2Mzk1MjM1M2QxNWFiNzk4MzgiLCJpYXQiOjE2OTMyMTM2NzEsImV4cCI6MTY5MzMyMTY3MX0.BCoLCdP_tFeVGopYRs_FxsXs0aYjBllsn7t4GEq7DpE",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/getSingleMail/64eaf3677c0687b9632806cc",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"getSingleMail",
+						"64eaf3677c0687b9632806cc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sentbox Mails",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4NTg2ZjJmNTRkZmIzYzA5NTBmM2UiLCJpYXQiOjE2OTMyMzk4OTEsImV4cCI6MTY5MzM0Nzg5MX0.2iOjeazt3_r6nDBeb6JHt5Od6pdZ5S4mFHUyI1lbcic",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/getSentMails",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"getSentMails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inbox Mails",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4NTg2ZjJmNTRkZmIzYzA5NTBmM2UiLCJpYXQiOjE2OTMyMzk4OTEsImV4cCI6MTY5MzM0Nzg5MX0.2iOjeazt3_r6nDBeb6JHt5Od6pdZ5S4mFHUyI1lbcic",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/getInboxMails",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"getInboxMails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mails Forwarded by the User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4NTg2ZjJmNTRkZmIzYzA5NTBmM2UiLCJpYXQiOjE2OTMyMzk4OTEsImV4cCI6MTY5MzM0Nzg5MX0.2iOjeazt3_r6nDBeb6JHt5Od6pdZ5S4mFHUyI1lbcic",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/getforwardedMailByUser",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"getforwardedMailByUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mails Forwarded to the User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU4ODcxOGUwNThjMDRhYmVkYjI4ZjEiLCJpYXQiOjE2OTMyODc4NDYsImV4cCI6MTY5MzM5NTg0Nn0.FeQIK5nIf9gW6UfyxaXbOudFKIGtN53CAB3eCCddU_E",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:4000/mail/getForwardedMailByOthers",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"mail",
+						"getForwardedMailByOthers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
