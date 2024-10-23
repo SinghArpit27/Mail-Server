@@ -77,8 +77,7 @@ DB_PASSWORD=your_password
 
 ### 5. **Install Laravel's `doctrine/dbal` Package**
 
-Laravel's `doctrine/dbal` package is required for reverse engineering (generating models from an existing database). Install it using the following command:
-
+Laravel's `doctrine/dbal` package is required for reverse engineering (generating models from an existing database), required version "doctrine/dbal": "^3.0". Install it using the following command:
 ```bash
 composer require doctrine/dbal
 ```
@@ -97,9 +96,13 @@ Once the package is installed, you can use the following command to generate mod
 
 ```bash
 php artisan krlove:generate:model User
-php artisan make:model ../database/migrations/User
 php artisan krlove:generate:model Post
 php artisan krlove:generate:model Comment
+OR
+php artisan make:model ../../database/migrations/User
+php artisan make:model ../../database/migrations/Post
+php artisan make:model ../../database/migrations/Comment
+
 ```
 
 This will generate the corresponding Eloquent models for `users`, `posts`, and `comments` tables in the `app/Models` directory.
