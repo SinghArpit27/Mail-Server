@@ -97,6 +97,7 @@ Once the package is installed, you can use the following command to generate mod
 
 ```bash
 php artisan krlove:generate:model User
+php artisan make:model ../database/migrations/User
 php artisan krlove:generate:model Post
 php artisan krlove:generate:model Comment
 ```
